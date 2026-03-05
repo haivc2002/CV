@@ -74,18 +74,22 @@ class _MyCVState extends State<MyCV> {
               heightFactor: 0.955,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 900),
-                child: cachedImage != null ? SizedBox(
-                  height: index == 1 ? 270 : null,
-                  width: double.infinity,
-                  child: Image.memory(
-                    cachedImage,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                  ),
-                ) : const SizedBox(
-                  height: 400,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
+                child: cachedImage != null ? LayoutBuilder(
+                  builder: (context, constraints) {
+                    final width = constraints.maxWidth;
+                    final height = index == 1 ? width * 5 / 16 : null;
+
+                    return SizedBox(
+                      width: width,
+                      height: height,
+                      child: Image.memory(
+                        cachedImage,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      ),
+                    );
+                  },
+                ) : const SizedBox(),
               ),
             ),
           );

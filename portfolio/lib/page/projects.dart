@@ -40,36 +40,6 @@ class Projects extends StatelessWidget {
               ),
               children: [
                 BoxItem(
-                  image: "assets/qldh.png",
-                  nameApp: "Quản lý điều hành",
-                  description: "The application assists users working in"
-                      " the Ministry of Information office.",
-                  descriptionVi: "Ứng dụng hỗ trợ người dùng làm việc tại"
-                      " văn phòng Bộ Thông tin.",
-                  teamSize: "3 (2 mobile, 1 backend)",
-                  mainFeatures: [
-                    "Sign up, log in, and account verification",
-                    "Optional biometric authentication (fingerprint/face recognition) for fast and secure access",
-                    "Task management, scheduling, and meeting organization",
-                    "Manage tasks: view, assign, and receive tasks",
-                    "View and book transportation for scheduled trips"
-                  ],
-                  mainFeaturesVi: [
-                    "Đăng ký, đăng nhập và xác minh tài khoản",
-                    "Xác thực sinh trắc học tùy chọn (vân tay/nhận diện khuôn mặt) để truy cập nhanh và an toàn",
-                    "Quản lý công việc, lịch trình và tổ chức cuộc họp",
-                    "Quản lý nhiệm vụ: xem, giao và nhận nhiệm vụ",
-                    "Xem và đặt phương tiện di chuyển cho các chuyến đi theo lịch"
-                  ],
-                  technologies: [
-                    Technology(logo: "assets/logo_flutter.png", name: "Flutter"),
-                    Technology(logo: "assets/logo_firebase.png", name: "Firebase"),
-                    Technology(logo: "assets/logo_java.png", name: "Java"),
-                  ],
-                  sourceCHplay: "https://play.google.com/store/apps/details?id=com.xtel.bookmetting_car&pcampaignid=web_share",
-                  sourceAppstore: "https://apps.apple.com/vn/app/one-mst/id1562108303?l=vi",
-                ),
-                BoxItem(
                   image: "assets/ahome.png",
                   nameApp: "Ahome",
                   description: "Ahome is a rental platform that enables users to find, filter, and "
@@ -191,6 +161,54 @@ class Projects extends StatelessWidget {
                   teamSize: "3 (2 mobile, 1 backend)",
                   sourceCHplay: "https://play.google.com/store/apps/details?id=vn.xtel.ahome.host&hl=vi",
                   sourceAppstore: "https://apps.apple.com/vn/app/homevn-pro/id6720719430?l=vi",
+                ),
+                BoxItem(
+                  image: "assets/qldh.png",
+                  nameApp: "Quản lý điều hành",
+                  description: "The application assists users working in"
+                      " the Ministry of Information office.",
+                  descriptionVi: "Ứng dụng hỗ trợ người dùng làm việc tại"
+                      " văn phòng Bộ Thông tin.",
+                  teamSize: "3 (2 mobile, 1 backend)",
+                  mainFeatures: [
+                    "Sign up, log in, and account verification",
+                    "Optional biometric authentication (fingerprint/face recognition) for fast and secure access",
+                    "Task management, scheduling, and meeting organization",
+                    "Manage tasks: view, assign, and receive tasks",
+                    "View and book transportation for scheduled trips"
+                  ],
+                  mainFeaturesVi: [
+                    "Đăng ký, đăng nhập và xác minh tài khoản",
+                    "Xác thực sinh trắc học tùy chọn (vân tay/nhận diện khuôn mặt) để truy cập nhanh và an toàn",
+                    "Quản lý công việc, lịch trình và tổ chức cuộc họp",
+                    "Quản lý nhiệm vụ: xem, giao và nhận nhiệm vụ",
+                    "Xem và đặt phương tiện di chuyển cho các chuyến đi theo lịch"
+                  ],
+                  technologies: [
+                    Technology(logo: "assets/logo_flutter.png", name: "Flutter"),
+                    Technology(logo: "assets/logo_firebase.png", name: "Firebase"),
+                    Technology(logo: "assets/logo_java.png", name: "Java"),
+                  ],
+                  contribution: [
+                    "Estimated contribution: 16% of the project",
+                    "Optimized and refactored the codebase. Cleaned up legacy code, "
+                        "applied best practices for state management, "
+                        "and improved responsiveness.",
+                    "Updated the UI in collaboration with the Designer",
+                    "Managed tasks: assigned and received tasks, updated statistics "
+                        "for assigned tasks and directed tasks."
+                  ],
+                  contributionVi: [
+                    "Đóng góp ước tính 16% dự án",
+                    "Tối ưu hóa và tái cấu trúc mã. Dọn dẹp mã nguồn cũ, "
+                        "áp dụng các phương pháp quản lý trạng thái tốt nhất "
+                        "và nâng cao khả năng phản hồi.",
+                    "Cập nhật lại giao diện, phối hợp cùng Designer",
+                    "Quản lý nhiệm vụ, giao và nhận nhiệm vụ, cập nhật thống kê "
+                        "nhiệm vụ được giao, nhiêm vụ chỉ đạo."
+                  ],
+                  sourceCHplay: "https://play.google.com/store/apps/details?id=com.xtel.bookmetting_car&pcampaignid=web_share",
+                  sourceAppstore: "https://apps.apple.com/vn/app/one-mst/id1562108303?l=vi",
                 ),
                 BoxItem(
                   image: "assets/nguoitieudung.png",
