@@ -30,6 +30,7 @@ class Projects extends StatelessWidget {
             GridView(
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(vertical: 20),
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 500,
                   mainAxisSpacing: 20,
@@ -273,6 +274,7 @@ class Projects extends StatelessWidget {
             )),
             GridView(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(vertical: 20),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 500,
@@ -420,6 +422,7 @@ class Projects extends StatelessWidget {
             ),),
             GridView(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(vertical: 20),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 500,
