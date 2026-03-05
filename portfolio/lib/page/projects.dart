@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fog_edge_blur/fog_edge_blur.dart';
-import 'package:fog_edge_blur/fog_edge_child.dart';
 import 'package:go_router/go_router.dart';
 import 'package:portfolio/page/project_detail.dart';
 
@@ -660,15 +658,49 @@ class BoxItemState extends State<BoxItem> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: FogEdgeBlur(
-              edgeAlign: EdgeAlign.bottom,
-              sigma: 3,
-              fogEdgeChild: FogEdgeChild(
-                heightEdge: 100,
-                colorEdge: Colors.black.withValues(alpha: 0.3),
-                child: Padding(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                AnimatedScale(
+                  scale: isHover ? 1.08 : 1.0,
+                  duration: const Duration(milliseconds: 250),
+                  child: Image.asset(
+                    widget.image,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                      if (frame == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (wasSynchronouslyLoaded) return child;
+
+                      return TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0.0, end: 1.0),
+                        duration: const Duration(milliseconds: 1000),
+                        builder: (context, value, _) {
+                          return Opacity(opacity: value, child: child);
+                        },
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  height: 100,
                   padding: const EdgeInsets.all(10)
                       .add(const EdgeInsets.only(top: 5)),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withValues(alpha: 0.0),
+                        Colors.black.withValues(alpha: 0.8),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter
+                    )
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -703,31 +735,8 @@ class BoxItemState extends State<BoxItem> {
                       )
                     ],
                   ),
-                ),
-              ),
-              child: AnimatedScale(
-                scale: isHover ? 1.08 : 1.0,
-                duration: const Duration(milliseconds: 250),
-                child: Image.asset(
-                  widget.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                    if (frame == null) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    return AnimatedOpacity(
-                      opacity: 1,
-                      duration: const Duration(milliseconds: 500),
-                      child: child,
-                    );
-                  },
-                ),
-              ),
+                )
+              ],
             ),
           ),
         ),
