@@ -710,9 +710,22 @@ class BoxItemState extends State<BoxItem> {
                 duration: const Duration(milliseconds: 250),
                 child: Image.asset(
                   widget.image,
-                  height: double.infinity,
-                  width: double.infinity,
                   fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                    if (frame == null) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    return AnimatedOpacity(
+                      opacity: 1,
+                      duration: const Duration(milliseconds: 500),
+                      child: child,
+                    );
+                  },
                 ),
               ),
             ),
