@@ -82557,7 +82557,7 @@ N(a){var s=null,r=A.us(s,A.avG(B.Z,s,s,B.HO),B.k,!0)
 return new A.te($.aEz(),"Flutter Demo",r,!1,s)}}
 A.pe.prototype={
 a3Q(){var s,r=document,q=r.createElement("a")
-q.href="assets/ThanhHai_mobile.pdf"
+q.href="https://raw.githubusercontent.com/haivc2002/CV/main/assets/assets/ThanhHai_mobile.pdf"
 q.setAttribute("download","ThanhHai_mobile.pdf")
 s=q.style
 s.display="none"

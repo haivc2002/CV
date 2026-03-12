@@ -9,7 +9,9 @@ class MainLayout extends StatelessWidget {
   const MainLayout({super.key, required this.child});
 
   void _downloadCV() {
-    final anchor = html.AnchorElement(href: 'assets/ThanhHai_mobile.pdf')
+    // final anchor = html.AnchorElement(href: 'assets/ThanhHai_mobile.pdf')
+    final anchor = html.AnchorElement(href: 'https://raw.githubusercontent.com/haivc2002'
+        '/CV/main/assets/assets/ThanhHai_mobile.pdf')
       ..setAttribute('download', 'ThanhHai_mobile.pdf')
       ..style.display = 'none';
     html.document.body?.append(anchor);
