@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdfx/pdfx.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyCV extends StatefulWidget {
   const MyCV({super.key});
@@ -55,6 +56,21 @@ class _MyCVState extends State<MyCV> {
     return bytes;
   }
 
+  Widget _areaLink(String link) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+          onTap: () async {
+            await launchUrl(
+              Uri.parse(link),
+              mode: LaunchMode.externalApplication,
+            );
+          },
+          child: Material(color: Colors.transparent)
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,14 +95,46 @@ class _MyCVState extends State<MyCV> {
                     final width = constraints.maxWidth;
                     final height = index == 1 ? width * 5 / 16 : null;
 
-                    return SizedBox(
-                      width: width,
-                      height: height,
-                      child: Image.memory(
-                        cachedImage,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      ),
+                    return Stack(
+                      children: [
+                        SizedBox(
+                          width: width,
+                          height: height,
+                          child: Image.memory(
+                            cachedImage,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                        if(index == 0) Positioned(
+                          width: width/4.7,
+                          height: width/38,
+                          top: width/8.7,
+                          right: width/3.7,
+                          child: _areaLink("https://github.com/haivc2002")
+                        ),
+                        if(index == 0) Positioned(
+                            width: width/3.5,
+                            height: width/38,
+                            top: width/1.135,
+                            left: width/13,
+                            child: _areaLink("https://haivc2002.github.io/CV/#/projects")
+                        ),
+                        if(index == 0) Positioned(
+                            width: width/3.5,
+                            height: width/38,
+                            top: width/1.02,
+                            left: width/13,
+                            child: _areaLink("https://pub.dev/packages/fog_edge_blur")
+                        ),
+                        if(index == 0) Positioned(
+                            width: width/3.5,
+                            height: width/38,
+                            top: width/0.865,
+                            left: width/11,
+                            child: _areaLink("https://pub.dev/packages/flow_box_popup")
+                        )
+                      ],
                     );
                   },
                 ) : const SizedBox(),
