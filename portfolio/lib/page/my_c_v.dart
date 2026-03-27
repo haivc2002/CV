@@ -1,9 +1,8 @@
-import 'dart:typed_data';
+import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdfx/pdfx.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyCV extends StatefulWidget {
   const MyCV({super.key});
@@ -60,8 +59,9 @@ class _MyCVState extends State<MyCV> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-          onTap: () async {
-            await launchUrl(Uri.parse(link));
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            html.window.open(link, '_blank');
           },
           child: Material(color: Colors.transparent)
       ),
