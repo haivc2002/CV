@@ -61,10 +61,7 @@ class _MyCVState extends State<MyCV> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
           onTap: () async {
-            await launchUrl(
-              Uri.parse(link),
-              mode: LaunchMode.externalApplication,
-            );
+            await launchUrl(Uri.parse(link));
           },
           child: Material(color: Colors.transparent)
       ),
