@@ -87,13 +87,13 @@ class _MyCVState extends State<MyCV> {
 
             return Center(
               child: Align(
-                heightFactor: 0.955,
+                heightFactor: 0.98,
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 900),
                   child: cachedImage != null ? LayoutBuilder(
                     builder: (context, constraints) {
                       final width = constraints.maxWidth;
-                      final height = index == 1 ? width * 5 / 16 : null;
+                      final height = index == 1 ? width * 5 / 12 : null;
 
                       return Stack(
                         children: [
@@ -133,6 +133,13 @@ class _MyCVState extends State<MyCV> {
                               top: width/0.865,
                               left: width/11,
                               child: _areaLink("https://pub.dev/packages/flow_box_popup")
+                          ),
+                          if(index == 0) Positioned(
+                              width: width/3.9,
+                              height: width/38,
+                              top: width/0.754,
+                              left: width/11,
+                              child: _areaLink("https://pub.dev/packages/fluid_wave")
                           )
                         ],
                       );

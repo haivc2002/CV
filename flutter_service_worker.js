@@ -3,11 +3,11 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"flutter_bootstrap.js": "94540802532888743e80e1ca4b56c45c",
+const RESOURCES = {"flutter_bootstrap.js": "f394b3a8035da02c2c89c5a05a8146f3",
 "version.json": "009c9e65172e010890f7f65fde438006",
 "index.html": "3972f3c9cb3b34d020a5fc48abf0cb5e",
 "/": "3972f3c9cb3b34d020a5fc48abf0cb5e",
-"main.dart.js": "eb7b114b267073f3bf8e02a7e73ca43a",
+"main.dart.js": "6d31ca3da6bf69174320cd5f8020db69",
 "flutter.js": "24bc71911b75b5f8135c949e27a2984e",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
@@ -43,7 +43,7 @@ const RESOURCES = {"flutter_bootstrap.js": "94540802532888743e80e1ca4b56c45c",
 "assets/assets/logo_github.png": "0b5a08329908daddeca171aa8d85a084",
 "assets/assets/logo_chplay.png": "2099f0efd52a5f8804583e67f1b9dc40",
 "assets/assets/logo_reactjs.svg.png": "2d0b2bc3ac43e8f3b7f8f440795294e5",
-"assets/assets/ThanhHai_mobile.pdf": "b75e641c6329a21c4be9f7d199dbcd5f",
+"assets/assets/ThanhHai_mobile.pdf": "d7573077e200817d93c14c179399ccef",
 "assets/assets/logo_java.png": "29f4d342433f2a0aa130df08770405cf",
 "assets/assets/qldh.png": "a1223785edecce151ac6729754146ac6",
 "assets/assets/logo_kotlin.jpeg": "4ec997a36a2efa1b513f4aaf9b4decad",
