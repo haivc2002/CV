@@ -1,4 +1,5 @@
 import 'dart:html' as html;
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,9 +26,30 @@ class _MyCVState extends State<MyCV> {
   }
 
   Future<void> _loadPdf() async {
-    final doc = await PdfDocument.openAsset('assets/ThanhHai_mobile.pdf');
-    setState(() => _doc = doc);
-    _preRenderAllPages(doc);
+    try {
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final url = 'https://raw.githubusercontent.com/haivc2002/CV/main/assets/assets/ThanhHai_mobile.pdf?t=$timestamp';
+      
+      final request = await html.HttpRequest.request(
+        url,
+        responseType: 'arraybuffer',
+      );
+      
+      if (request.status == 200) {
+        final bytes = Uint8List.view(request.response as ByteBuffer);
+        final doc = await PdfDocument.openData(bytes);
+        setState(() => _doc = doc);
+        _preRenderAllPages(doc);
+      } else {
+        throw Exception('Failed to load PDF: ${request.status}');
+      }
+    } catch (e) {
+      debugPrint('Error loading CV from network: $e');
+      // Fallback to asset if network fails
+      final doc = await PdfDocument.openAsset('assets/ThanhHai_mobile.pdf');
+      setState(() => _doc = doc);
+      _preRenderAllPages(doc);
+    }
   }
 
   Future<void> _preRenderAllPages(PdfDocument doc) async {
