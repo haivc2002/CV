@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MainLayout extends StatelessWidget {
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
-  const MainLayout({super.key, required this.child});
+  const MainLayout({super.key, required this.navigationShell});
 
   void _downloadCV() {
     // final anchor = html.AnchorElement(href: 'assets/ThanhHai_mobile.pdf')
@@ -20,10 +20,19 @@ class MainLayout extends StatelessWidget {
     anchor.remove();
   }
 
+  void _onTap(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentIndex = navigationShell.currentIndex;
+
     return DecoratedBox(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/background.jpg"),
           fit: BoxFit.fill
@@ -35,17 +44,19 @@ class MainLayout extends StatelessWidget {
           backgroundColor: Colors.white,
           title: Row(children: [
             TextButton(
-              onPressed: () => context.go('/'),
+              onPressed: () => _onTap(0),
               child: Text("ABOUT ME", style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600
+                color: currentIndex == 0 ? Colors.blueAccent : Colors.black,
+                fontWeight: currentIndex == 0 ? FontWeight.bold : FontWeight.w600,
+                decoration: currentIndex == 0 ? TextDecoration.underline : null,
               ))
             ),
             TextButton(
-                onPressed: () => context.go('/projects'),
+                onPressed: () => _onTap(1),
                 child: Text('PROJECTS', style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600
+                  color: currentIndex == 1 ? Colors.blueAccent : Colors.black,
+                  fontWeight: currentIndex == 1 ? FontWeight.bold : FontWeight.w600,
+                  decoration: currentIndex == 1 ? TextDecoration.underline : null,
                 ))
             )
           ]),
@@ -55,13 +66,13 @@ class MainLayout extends StatelessWidget {
                 backgroundColor: Colors.blueAccent,
               ),
               onPressed: _downloadCV,
-              child: Text("Download CV", style: TextStyle(color: Colors.white),)
+              child: const Text("Download CV", style: TextStyle(color: Colors.white),)
             ),
             const SizedBox(width: 20),
           ],
           centerTitle: false,
         ),
-        body: child,
+        body: navigationShell,
       ),
     );
   }

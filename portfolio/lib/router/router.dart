@@ -7,22 +7,30 @@ import 'package:portfolio/page/projects.dart';
 
 final GoRouter router = GoRouter(
   routes: [
-    ShellRoute(
-      builder: (context, state, child) {
-        return MainLayout(child: child);
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return MainLayout(navigationShell: navigationShell);
       },
-      routes: [
-        GoRoute(
-          path: '/',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: MyCV(),
-          ),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: MyCV(),
+              ),
+            ),
+          ],
         ),
-        GoRoute(
-          path: '/projects',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: Projects(),
-          ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/projects',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: Projects(),
+              ),
+            ),
+          ],
         ),
       ],
     ),

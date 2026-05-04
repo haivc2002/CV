@@ -27,20 +27,20 @@ class _MyCVState extends State<MyCV> {
 
   Future<void> _loadPdf() async {
     try {
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final url = 'https://raw.githubusercontent.com/haivc2002/CV/main/assets/assets/ThanhHai_mobile.pdf?t=$timestamp';
+      const url = 'https://raw.githubusercontent.com/haivc2002/CV/main/assets/assets/ThanhHai_mobile.pdf';
       
       final request = await html.HttpRequest.request(
         url,
-        // "assets/ThanhHai_mobile.pdf",
         responseType: 'arraybuffer',
       );
       
       if (request.status == 200) {
         final bytes = Uint8List.view(request.response as ByteBuffer);
         final doc = await PdfDocument.openData(bytes);
-        setState(() => _doc = doc);
-        _preRenderAllPages(doc);
+        if (mounted) {
+          setState(() => _doc = doc);
+          _preRenderAllPages(doc);
+        }
       } else {
         throw Exception('Failed to load PDF: ${request.status}');
       }
@@ -54,12 +54,24 @@ class _MyCVState extends State<MyCV> {
   }
 
   Future<void> _preRenderAllPages(PdfDocument doc) async {
-    for (int i = 1; i <= doc.pagesCount; i++) {
-      if (!_pageCache.containsKey(i)) {
-        await _renderPage(i);
-        if (mounted) setState(() {});
-      }
+    // Pre-render only the first page to get things started
+    if (doc.pagesCount > 0 && !_pageCache.containsKey(1)) {
+      await _renderPage(1);
+      if (mounted) setState(() {});
     }
+    
+    // Background rendering for the rest to avoid UI lag
+    Future.microtask(() async {
+      for (int i = 2; i <= doc.pagesCount; i++) {
+        if (!_pageCache.containsKey(i)) {
+          await _renderPage(i);
+          // Update UI periodically
+          if (mounted && (i % 2 == 0 || i == doc.pagesCount)) {
+            setState(() {});
+          }
+        }
+      }
+    });
   }
 
   Future<Uint8List> _renderPage(int pageNumber) async {
@@ -107,6 +119,17 @@ class _MyCVState extends State<MyCV> {
           itemBuilder: (context, index) {
             final pageNum = index + 1;
             final cachedImage = _pageCache[pageNum];
+
+            if (cachedImage == null) {
+              // Trigger rendering if not already cached
+              _renderPage(pageNum).then((_) {
+                if (mounted) setState(() {});
+              });
+              return const SizedBox(
+                height: 600,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
 
             return Center(
               child: Align(
