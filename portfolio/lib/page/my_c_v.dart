@@ -86,7 +86,7 @@ class _MyCVState extends State<MyCV> {
           onTap: () {
             html.window.open(link, '_blank');
           },
-          child: Material(color: Colors.red.withValues(alpha: 0.5))
+          child: Material(color: Colors.transparent)
       ),
     );
   }
