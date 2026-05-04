@@ -32,6 +32,7 @@ class _MyCVState extends State<MyCV> {
       
       final request = await html.HttpRequest.request(
         url,
+        // "assets/ThanhHai_mobile.pdf",
         responseType: 'arraybuffer',
       );
       
@@ -85,7 +86,7 @@ class _MyCVState extends State<MyCV> {
           onTap: () {
             html.window.open(link, '_blank');
           },
-          child: Material(color: Colors.transparent)
+          child: Material(color: Colors.red.withValues(alpha: 0.5))
       ),
     );
   }
@@ -115,7 +116,7 @@ class _MyCVState extends State<MyCV> {
                   child: cachedImage != null ? LayoutBuilder(
                     builder: (context, constraints) {
                       final width = constraints.maxWidth;
-                      final height = index == 1 ? width * 5 / 12 : null;
+                      final height = index == 1 ? width * 5 / 15 : null;
 
                       return Stack(
                         children: [
@@ -152,14 +153,14 @@ class _MyCVState extends State<MyCV> {
                           if(index == 0) Positioned(
                               width: width/3.5,
                               height: width/38,
-                              top: width/0.865,
+                              top: width/0.905,
                               left: width/11,
                               child: _areaLink("https://pub.dev/packages/flow_box_popup")
                           ),
                           if(index == 0) Positioned(
                               width: width/3.9,
                               height: width/38,
-                              top: width/0.754,
+                              top: width/0.815,
                               left: width/11,
                               child: _areaLink("https://pub.dev/packages/fluid_wave")
                           )
