@@ -4,11 +4,16 @@ const views = document.querySelectorAll('.view-section');
 const btnBack = document.getElementById('btn-back');
 
 function navigateTo(targetId) {
-    window.location.hash = targetId;
+    window.location.hash = '/' + targetId;
 }
 
 function handleHashChange() {
-    let targetId = window.location.hash.replace('#', '');
+    let hash = window.location.hash.replace('#', '');
+    if (hash.startsWith('/')) {
+        hash = hash.substring(1);
+    }
+    
+    let targetId = hash;
     if (!targetId || targetId === '') {
         targetId = 'about'; // default
     }
@@ -75,11 +80,15 @@ function renderProjectsGrid() {
         
         projects.forEach(p => {
             const card = document.createElement('div');
-            card.className = 'project-card';
+            card.className = 'project-card skeleton';
             card.onclick = () => renderProjectDetail(p);
 
             card.innerHTML = `
-                <img src="${p.image}" class="project-image" alt="${p.nameApp}">
+                <img src="${p.image}" 
+                     class="project-image" 
+                     alt="${p.nameApp}" 
+                     loading="lazy" 
+                     onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton');">
                 <div class="project-info-overlay">
                     <div class="project-title">${p.nameApp}</div>
                     <div class="project-desc-short">${p.description}</div>
@@ -141,15 +150,20 @@ function updateProjectDetailDOM() {
             <hr style="margin: 30px 0; border: none; border-top: 1px solid #ccc;">
             <h3 class="section-title">${labels.download}</h3>
             <div class="store-links">
-                ${p.sourceAppstore ? `<a href="${p.sourceAppstore}" target="_blank"><img src="assets/logo_appstore.png" alt="App Store"></a>` : ''}
-                ${p.sourceCHplay ? `<a href="${p.sourceCHplay}" target="_blank"><img src="assets/logo_chplay.png" alt="Google Play"></a>` : ''}
-                ${p.sourceGithub ? `<a href="${p.sourceGithub}" target="_blank"><img src="assets/logo_github.png" alt="GitHub"></a>` : ''}
+                ${p.sourceAppstore ? `<a href="${p.sourceAppstore}" target="_blank"><img src="assets/logo_appstore.webp" alt="App Store"></a>` : ''}
+                ${p.sourceCHplay ? `<a href="${p.sourceCHplay}" target="_blank"><img src="assets/logo_chplay.webp" alt="Google Play"></a>` : ''}
+                ${p.sourceGithub ? `<a href="${p.sourceGithub}" target="_blank"><img src="assets/logo_github.webp" alt="GitHub"></a>` : ''}
             </div>
         `;
     }
 
     container.innerHTML = `
-        <img src="${p.image}" class="detail-header-image" alt="${p.nameApp}">
+        <div class="detail-image-wrapper skeleton" style="border-radius: 20px; overflow: hidden; margin-bottom: 30px;">
+            <img src="${p.image}" 
+                 class="detail-header-image" 
+                 alt="${p.nameApp}"
+                 onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton');">
+        </div>
         
         <div class="detail-top">
             <div class="lang-toggle">
@@ -215,11 +229,11 @@ async function renderPDF() {
             const page = await pdf.getPage(pageNum);
             
             // Adjust scale for better resolution on high DPI screens
-            const scale = 2.0; 
+            const scale = 1.5; // Reduced from 2.0 to improve performance while keeping quality
             const viewport = page.getViewport({ scale });
 
             const wrapper = document.createElement('div');
-            wrapper.className = 'pdf-page-wrapper';
+            wrapper.className = 'pdf-page-wrapper skeleton'; // Add skeleton initially
             
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
@@ -235,8 +249,11 @@ async function renderPDF() {
             wrapper.appendChild(canvas);
             container.appendChild(wrapper);
             
-            // We await the render task so pages appear in order without overwhelming memory
+            // Render the page
             await page.render(renderContext).promise;
+            
+            // Page is ready, remove skeleton
+            wrapper.classList.remove('skeleton');
 
             // Add links overlay on the first page
             if (pageNum === 1) {
@@ -244,10 +261,14 @@ async function renderPDF() {
                 
                 // Keep overlay sizes updated if window resizes
                 window.addEventListener('resize', () => {
-                    // Re-calculate overlays if canvas display width changes
                     wrapper.querySelectorAll('.pdf-link-area').forEach(el => el.remove());
                     addLinksOverlay(wrapper, canvas.offsetWidth);
                 });
+            }
+
+            // Small delay to allow the UI to breathe between pages
+            if (pageNum < pdf.numPages) {
+                await new Promise(resolve => setTimeout(resolve, 50));
             }
         }
     } catch (error) {

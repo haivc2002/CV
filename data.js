@@ -2,14 +2,14 @@ const projectsData = [
   {
     id: 'ahome',
     company: 'XTEL Software Solutions (11/2023 - 12/2024)',
-    image: 'assets/ahome.png',
+    image: 'assets/ahome.webp',
     nameApp: 'Ahome',
     description: 'Ahome is a rental platform that enables users to find, filter, and book apartments directly from property owners in Vietnam, with features such as OTP authentication, advanced search, room management, and issue reporting.',
     descriptionVi: 'Ahome là nền tảng cho thuê giúp người dùng tìm kiếm, lọc và đặt phòng trực tiếp từ chủ nhà tại Việt Nam, với các tính năng như xác thực OTP, tìm kiếm nâng cao, quản lý phòng và báo cáo sự cố.',
     technologies: [
-      { logo: 'assets/logo_flutter.png', name: 'Flutter' },
-      { logo: 'assets/logo_firebase.png', name: 'Firebase' },
-      { logo: 'assets/logo_java.png', name: 'Java' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_firebase.webp', name: 'Firebase' },
+      { logo: 'assets/logo_java.webp', name: 'Java' }
     ],
     teamSize: '2 (1 mobile, 1 backend)',
     mainFeatures: [
@@ -46,14 +46,14 @@ const projectsData = [
   {
     id: 'ahome-pro',
     company: 'XTEL Software Solutions (11/2023 - 12/2024)',
-    image: 'assets/ahome_pro.png',
+    image: 'assets/ahome_pro.webp',
     nameApp: 'Ahome Pro',
     description: 'The app is a comprehensive rental property management solution designed for homeowners. It allows users to manage buildings and rooms, handle contracts (including deposits, renewals, and cancellations), and track payments such as rent, utilities, and service fees. The system also supports tenant check-in, issue reporting, and maintenance tracking with real-time status updates. In addition, it provides monthly statistics on payment status and room occupancy, helping homeowners optimize operations and reduce revenue loss.',
     descriptionVi: 'Ứng dụng là giải pháp quản lý bất động sản cho thuê toàn diện dành cho chủ nhà. Cho phép quản lý tòa nhà và phòng, xử lý hợp đồng (bao gồm đặt cọc, gia hạn và hủy bỏ), theo dõi thanh toán tiền thuê, điện nước và phí dịch vụ. Hệ thống cũng hỗ trợ nhận phòng, báo cáo sự cố, và theo dõi bảo trì với cập nhật trạng thái thời gian thực. Ngoài ra, cung cấp thống kê hàng tháng về tình trạng thanh toán và tỷ lệ phòng trống.',
     technologies: [
-      { logo: 'assets/logo_flutter.png', name: 'Flutter' },
-      { logo: 'assets/logo_firebase.png', name: 'Firebase' },
-      { logo: 'assets/logo_java.png', name: 'Java' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_firebase.webp', name: 'Firebase' },
+      { logo: 'assets/logo_java.webp', name: 'Java' }
     ],
     teamSize: '3 (2 mobile, 1 backend)',
     mainFeatures: [
@@ -100,15 +100,15 @@ const projectsData = [
   {
     id: 'qldh',
     company: 'XTEL Software Solutions (11/2023 - 12/2024)',
-    image: 'assets/qldh.png',
+    image: 'assets/qldh.webp',
     nameApp: 'Quản lý điều hành',
     description: 'The application assists users working in the Ministry of Information office.',
     descriptionVi: 'Ứng dụng hỗ trợ người dùng làm việc tại văn phòng Bộ Thông tin.',
     teamSize: '3 (2 mobile, 1 backend)',
     technologies: [
-      { logo: 'assets/logo_flutter.png', name: 'Flutter' },
-      { logo: 'assets/logo_firebase.png', name: 'Firebase' },
-      { logo: 'assets/logo_java.png', name: 'Java' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_firebase.webp', name: 'Firebase' },
+      { logo: 'assets/logo_java.webp', name: 'Java' }
     ],
     mainFeatures: [
       'Sign up, log in, and account verification',
@@ -142,13 +142,13 @@ const projectsData = [
   {
     id: 'nguoitieudung',
     company: 'XTEL Software Solutions (11/2023 - 12/2024)',
-    image: 'assets/nguoitieudung.png',
+    image: 'assets/nguoitieudung.webp',
     nameApp: 'Người tiêu dùng',
     description: 'The “Người tiêu dùng” app provides knowledge, news, and guidance to protect the rights and legitimate interests of consumers. Users can easily access essential consumer rights, safety alerts, and the latest updates from the Vietnam Consumer Protection Association.',
     descriptionVi: 'Ứng dụng “Người tiêu dùng” cung cấp kiến thức, tin tức và hướng dẫn bảo vệ quyền và lợi ích hợp pháp của người tiêu dùng. Người dùng có thể dễ dàng tiếp cận các quyền cơ bản, cảnh báo an toàn và cập nhật mới nhất từ Hội Bảo vệ Người tiêu dùng Việt Nam.',
     technologies: [
-      { logo: 'assets/logo_flutter.png', name: 'Flutter' },
-      { logo: 'assets/logo_java.png', name: 'Java' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_java.webp', name: 'Java' }
     ],
     teamSize: '3 (2 mobile, 1 backend)',
     mainFeatures: [
@@ -191,13 +191,13 @@ const projectsData = [
   {
     id: 'viettel',
     company: 'ATIN – Advanced Technology Innovations Hanoi, Vietnam (01/2025 - now)',
-    image: 'assets/viettel.png',
+    image: 'assets/viettel.webp',
     nameApp: 'Viettel verify ID',
     description: 'Viettel Verify ID app enables fast and secure identity verification by scanning ID documents, performing face matching with liveness detection, and capturing user signatures.',
     descriptionVi: 'Ứng dụng Viettel Verify ID cho phép xác minh danh tính nhanh chóng và an toàn bằng cách quét giấy tờ tùy thân, đối chiếu khuôn mặt với phát hiện sống và thu thập chữ ký người dùng.',
     teamSize: '1',
     technologies: [
-      { logo: 'assets/logo_kotlin.jpeg', name: 'Kotlin' }
+      { logo: 'assets/logo_kotlin.webp', name: 'Kotlin' }
     ],
     mainFeatures: [
       'Scan ID cards/passports and extract information for display',
@@ -223,17 +223,17 @@ const projectsData = [
   {
     id: 'sun-monitor',
     company: 'ATIN – Advanced Technology Innovations Hanoi, Vietnam (01/2025 - now)',
-    image: 'assets/sun_monitor.jpeg',
+    image: 'assets/sun_monitor.webp',
     nameApp: 'SUN monitor',
     description: 'A device management platform for SUN Group Smart Face systems that enables centralized monitoring and control of devices. The system provides real-time insights into device performance, including hardware metrics such as RAM, CPU, storage, and temperature, along with operational status and location tracking. It also supports OTA software updates, remote device reboot, and automated email notifications to ensure efficient maintenance and system reliability.',
     descriptionVi: 'Nền tảng quản lý thiết bị cho hệ thống SUN Group Smart Face, cho phép giám sát và điều khiển tập trung các thiết bị. Cung cấp thông tin thời gian thực về hiệu suất phần cứng (RAM, CPU, bộ nhớ, nhiệt độ), trạng thái hoạt động và theo dõi vị trí. Hỗ trợ cập nhật OTA, khởi động lại từ xa và thông báo email tự động.',
     teamSize: '2 (1 mobile - backend, 1 web)',
     technologies: [
-      { logo: 'assets/logo_kotlin.jpeg', name: 'Kotlin' },
-      { logo: 'assets/logo_jetpack.png', name: 'Jetpack' },
-      { logo: 'assets/logo_nodejs.png', name: 'NodeJS' },
-      { logo: 'assets/logo_typejs.png', name: 'TypeJS' },
-      { logo: 'assets/logo_reactjs.svg.png', name: 'ReactJS' }
+      { logo: 'assets/logo_kotlin.webp', name: 'Kotlin' },
+      { logo: 'assets/logo_jetpack.webp', name: 'Jetpack' },
+      { logo: 'assets/logo_nodejs.webp', name: 'NodeJS' },
+      { logo: 'assets/logo_typejs.webp', name: 'TypeJS' },
+      { logo: 'assets/logo_reactjs.svg.webp', name: 'ReactJS' }
     ],
     sourceGithub: 'https://github.com/ThanhNg224/device_management_full',
     mainFeatures: [
@@ -270,15 +270,15 @@ const projectsData = [
   {
     id: 'atin-timekeeping',
     company: 'ATIN – Advanced Technology Innovations Hanoi, Vietnam (01/2025 - now)',
-    image: 'assets/atin_timekeeping.png',
+    image: 'assets/atin_timekeeping.webp',
     nameApp: 'Atin Timekeeping',
     description: 'An attendance management application for Atin company employees, enabling users to track daily attendance, working hours, and statuses with detailed monthly records. The app supports mobile-based check-in, leave and overtime requests, role-based access control, and multi-language customization.',
     descriptionVi: 'Ứng dụng quản lý chấm công cho nhân viên công ty Atin, cho phép theo dõi chấm công hàng ngày, giờ làm việc và trạng thái với bản ghi chi tiết theo tháng. Hỗ trợ chấm công qua điện thoại, yêu cầu nghỉ phép và làm thêm giờ, phân quyền vai trò và tùy chỉnh đa ngôn ngữ.',
     teamSize: '2 (1 mobile, 1 backend)',
     technologies: [
-      { logo: 'assets/logo_flutter.png', name: 'Flutter' },
-      { logo: 'assets/logo_java.png', name: 'Java' },
-      { logo: 'assets/logo_firebase.png', name: 'Firebase' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_java.webp', name: 'Java' },
+      { logo: 'assets/logo_firebase.webp', name: 'Firebase' }
     ],
     mainFeatures: [
       'Login with company-provided accounts',
@@ -310,15 +310,15 @@ const projectsData = [
   {
     id: 'topcam',
     company: 'TopTop Technology company (Freelancer)',
-    image: '../assets/topcam.png',
+    image: 'assets/topcam.webp',
     nameApp: 'TopCam - Phụ huynh',
     description: 'The app enables parents to monitor their children’s attendance through the school’s AI-powered camera system, receive real-time notifications, and access live camera streams. It also supports student registration and payment management.',
     descriptionVi: 'Ứng dụng giúp phụ huynh giám sát việc điểm danh của con em qua hệ thống camera AI của trường học, nhận thông báo thời gian thực và truy cập camera trực tiếp. Hỗ trợ đăng ký học sinh và quản lý thanh toán.',
     teamSize: '1',
     technologies: [
-      { logo: '../assets/logo_flutter.png', name: 'Flutter' },
-      { logo: '../assets/logo_firebase.png', name: 'Firebase' },
-      { logo: '../assets/logo_cakephp.png', name: 'Cake' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_firebase.webp', name: 'Firebase' },
+      { logo: 'assets/logo_cakephp.webp', name: 'Cake' }
     ],
     mainFeatures: [
       'User registration and authentication',
@@ -348,15 +348,15 @@ const projectsData = [
   {
     id: 'phoenix',
     company: 'TopTop Technology company (Freelancer)',
-    image: '../assets/phoenixcamp.png',
+    image: 'assets/phoenixcamp.webp',
     nameApp: 'Phoenix - camp',
     description: 'The application enables Phoenix users and students to connect, learn, and engage within a community-driven platform, offering features such as social networking, mentorship content, events, numerology insights, and marketing courses.',
     descriptionVi: 'Ứng dụng giúp người dùng và học viên Phoenix kết nối, học tập và tham gia trong nền tảng cộng đồng, cung cấp mạng xã hội, nội dung mentor, sự kiện, thần số học và khóa học marketing.',
     teamSize: '3 (2 mobile, 1 backend)',
     technologies: [
-      { logo: '../assets/logo_flutter.png', name: 'Flutter' },
-      { logo: '../assets/logo_firebase.png', name: 'Firebase' },
-      { logo: '../assets/logo_cakephp.png', name: 'Cake' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_firebase.webp', name: 'Firebase' },
+      { logo: 'assets/logo_cakephp.webp', name: 'Cake' }
     ],
     mainFeatures: [
       'User registration and login',
@@ -402,14 +402,14 @@ const projectsData = [
   {
     id: 'dsoft',
     company: 'TopTop Technology company (Freelancer)',
-    image: '../assets/dsoft.png',
+    image: 'assets/dsoft.webp',
     nameApp: 'DSOFT',
     description: 'Dsoft - a modern and professional spa and salon management solution. If you\'re looking for a professional and time-saving application to manage your spa, hair salon, etc., Dsoft is the perfect assistant.',
     descriptionVi: 'Dsoft - giải pháp quản lý spa và salon hiện đại và chuyên nghiệp. Nếu bạn đang tìm một ứng dụng chuyên nghiệp và tiết kiệm thời gian để quản lý spa, tiệm tóc, v.v., Dsoft là trợ lý hoàn hảo.',
     teamSize: '2 (1 mobile, 1 backend)',
     technologies: [
-      { logo: '../assets/logo_flutter.png', name: 'Flutter' },
-      { logo: '../assets/logo_cakephp.png', name: 'Cake' }
+      { logo: 'assets/logo_flutter.webp', name: 'Flutter' },
+      { logo: 'assets/logo_cakephp.webp', name: 'Cake' }
     ],
     mainFeatures: [
       'Customer management (customer groups, customer sources)',
