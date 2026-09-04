@@ -1,55 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Bui Thanh Hai</title>
+    <title>Bui Thanh Hai - 3D Portfolio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <!-- PDF.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
     <div class="app-container">
         <!-- Navigation Bar -->
         <nav class="navbar">
-            <div class="nav-links">
-                <button class="nav-btn active" data-target="about">ABOUT ME</button>
-                <button class="nav-btn" data-target="projects">PROJECTS</button>
-            </div>
-            <div class="nav-actions">
-                <a href="https://raw.githubusercontent.com/haivc2002/CV/main/assets/assets/ThanhHai_mobile.pdf" download="ThanhHai_mobile.pdf" class="btn-download">Download CV</a>
+            <div class="logo">BTH.</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#resume">View Resume</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#projects">Project</a></li>
+                <li><a href="#package">Package</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </nav>
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- About Me View -->
-            <section id="about" class="view-section active">
-                <div class="pdf-container">
-                    <div id="pdf-render-area"></div>
-                    <div id="pdf-loading" class="loading">Loading CV...</div>
+            <!-- Home Section -->
+            <section id="home" class="view-section active">
+                <div class="hero-content">
+                    <!-- Glow Effects -->
+                    <div class="glow-orb orb-1"></div>
+                    <div class="glow-orb orb-2"></div>
+
+                    <div class="glass-panel">
+                        <h1 class="hero-title">Hello, I am <br><span class="highlight">Bui Thanh Hai</span></h1>
+                        <h2 class="hero-subtitle">Software Developer</h2>
+                        <p class="hero-description">
+                            A graduate in Information Technology from Electric Power University. My primary area of
+                            expertise is <strong>Flutter application development</strong>, though I also handle native
+                            and backend tasks when necessary. I am passionate about building products that are highly
+                            reliable, easy to maintain, and genuinely useful to users.
+                        </p>
+                        <div class="hero-actions">
+                            <a href="assets/ThanhHai_mobile.pdf" download class="btn btn-primary">Download CV</a>
+                            <a href="#resume" class="btn btn-secondary">View Resume</a>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Projects View -->
+            <!-- View Resume Section -->
+            <section id="resume" class="view-section">
+                <div class="resume-container">
+                    <div class="pdf-container">
+                        <div id="pdf-render-area"></div>
+                        <div id="pdf-loading" class="loading">Loading CV...</div>
+                    </div>
+                </div>
+            </section>
+            <section id="about" class="view-section">
+                <div class="about-container-free">
+
+                    <!-- Bio Section -->
+                    <div class="about-row">
+                        <div class="about-col-title">
+                            <h3 class="row-title">Biography</h3>
+                        </div>
+                        <div class="about-col-content">
+                            <p class="lead-text">Hello! I am <strong>Bui Thanh Hai</strong>, a passionate Software
+                                Developer with a strong foundation in Information Technology.</p>
+                            <p>My core expertise lies in <strong>Flutter application development</strong>. I specialize
+                                in building cross-platform mobile applications that deliver smooth, native-like
+                                experiences. Beyond Flutter, I am highly capable of handling native mobile development
+                                (Java/Kotlin) and Backend engineering when required.</p>
+                            <p>I am deeply driven by the desire to build products that are not just highly reliable and
+                                easy to maintain, but also genuinely useful to end-users.</p>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Experience Section -->
+                    <div class="about-row">
+                        <div class="about-col-title">
+                            <h3 class="row-title">Experience</h3>
+                        </div>
+                        <div class="about-col-content">
+                            <div class="exp-item">
+                                <div class="exp-header">
+                                    <h4>Mobile Developer</h4>
+                                    <span class="exp-date">01/2025 - Present</span>
+                                </div>
+                                <div class="exp-company">ATIN – Advanced Technology Innovations</div>
+                            </div>
+
+                            <div class="exp-item">
+                                <div class="exp-header">
+                                    <h4>Mobile Developer</h4>
+                                    <span class="exp-date">11/2023 - 12/2024</span>
+                                </div>
+                                <div class="exp-company">XTEL Software Solutions</div>
+                            </div>
+
+                            <div class="exp-item">
+                                <div class="exp-header">
+                                    <h4>Mobile Developer</h4>
+                                    <span class="exp-date">Freelance</span>
+                                </div>
+                                <div class="exp-company">TopTop Technology Company</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Skills Section -->
+                    <div class="about-row">
+                        <div class="about-col-title">
+                            <h3 class="row-title">Skills</h3>
+                        </div>
+                        <div class="about-col-content">
+                            <div class="skills-list">
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <img src="assets/logo_flutter.webp" alt="Flutter">
+                                        <span>Flutter / Dart</span>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <img src="assets/logo_java.webp" alt="Java">
+                                        <span>Java / Kotlin</span>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <img src="assets/logo_firebase.webp" alt="Firebase">
+                                        <span>Firebase</span>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <img src="assets/logo_nodejs.webp" alt="NodeJS">
+                                        <span>NodeJS</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
             <section id="projects" class="view-section">
                 <div class="projects-container">
-                    <!-- Project groups will be injected here via JS -->
+                    <div id="projects-grid" class="projects-grid">
+                        <!-- Populated by JS -->
+                    </div>
                 </div>
             </section>
+            <section id="package" class="view-section">
+                <div class="glass-panel" style="margin-bottom: 2rem;">
+                    <h2 class="section-title">Open Source Packages</h2>
+                    <p class="section-subtitle">A collection of Flutter packages I've developed and published on Pub.dev.</p>
+                    
+                    <div class="packages-grid">
+                        <a href="https://pub.dev/packages/fluid_wave" target="_blank" class="package-card">
+                            <div class="package-icon">
+                                <img src="assets/logo_flutter.webp" alt="Flutter">
+                            </div>
+                            <div class="package-info">
+                                <h3>fluid_wave</h3>
+                                <p>A Flutter package to generate highly customizable, smooth, and realistic fluid wave animations for engaging UI experiences.</p>
+                                <span class="pub-link">pub.dev &rarr;</span>
+                            </div>
+                        </a>
 
-            <!-- Project Detail View -->
-            <section id="project-detail" class="view-section">
-                <div class="detail-container">
-                    <button class="btn-back" id="btn-back">← Back to Projects</button>
-                    <!-- Detail content will be injected here via JS -->
-                    <div id="detail-content"></div>
+                        <a href="https://pub.dev/packages/flow_box_popup" target="_blank" class="package-card">
+                            <div class="package-icon">
+                                <img src="assets/logo_flutter.webp" alt="Flutter">
+                            </div>
+                            <div class="package-info">
+                                <h3>flow_box_popup</h3>
+                                <p>A highly customizable package for creating smooth, interactive, and beautifully animated box popups and context menus.</p>
+                                <span class="pub-link">pub.dev &rarr;</span>
+                            </div>
+                        </a>
+
+                        <a href="https://pub.dev/packages/fog_edge_blur" target="_blank" class="package-card">
+                            <div class="package-icon">
+                                <img src="assets/logo_flutter.webp" alt="Flutter">
+                            </div>
+                            <div class="package-info">
+                                <h3>fog_edge_blur</h3>
+                                <p>A utility package that applies a customizable fog or blur effect to the edges of your Flutter widgets, perfect for fading scroll views.</p>
+                                <span class="pub-link">pub.dev &rarr;</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <section id="demo" class="view-section">
+                <div class="glass-panel" style="text-align: center; padding: 4rem 2rem;">
+                    <h2 class="section-title">Demo</h2>
+                    <p class="section-subtitle" style="margin-bottom: 0;">Interactive demos and live previews are coming soon. Stay tuned!</p>
+                </div>
+            </section>
+            <section id="contact" class="view-section">
+                <div class="contact-container glass-panel">
+                    <h2 class="section-title">Contact</h2>
+                    <p class="section-subtitle">Have a project in mind or just want to say hi? Feel free to reach out!
+                    </p>
+
+                    <div class="contact-content">
+                        <!-- Contact Info -->
+                        <div class="contact-info">
+                            <div class="info-item">
+                                <!-- Phone Icon -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                                <span>0865 831 896</span>
+                            </div>
+                            <div class="info-item">
+                                <!-- Email Icon -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <span>buithanhhai2172002@gmail.com</span>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <form id="contactForm" action="https://formsubmit.co/buithanhhai2172002@gmail.com" method="POST"
+                            class="contact-form" enctype="multipart/form-data" target="_blank">
+                            <!-- Optional configs for formsubmit -->
+                            <input type="hidden" name="_subject" value="New message from your Portfolio!">
+                            <!-- You can specify a thanks page here if needed, or leave default -->
+
+                            <div class="form-group">
+                                <label for="email">Sender (Your Email)</label>
+                                <input type="email" id="email" name="email" required
+                                    placeholder="your.email@example.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="attachment">Attachment (Optional)</label>
+                                <input type="file" id="attachment" name="attachment" accept=".pdf,.doc,.docx,.jpg,.png">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required
+                                    placeholder="Hello Hai, I would like to discuss..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
+                        </form>
+                    </div>
                 </div>
             </section>
         </main>
+
+        <!-- Fixed Social Sidebar -->
+        <div class="follow-me-sidebar">
+            <div class="social-links">
+                <a href="https://www.facebook.com/thanh.hai.201744?locale=vi_VN" target="_blank" class="social-link"
+                    aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/_th.hai_/" target="_blank" class="social-link"
+                    aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                    </svg>
+                </a>
+                <a href="https://github.com/haivc2002" target="_blank" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                    </svg>
+                </a>
+            </div>
+            <span class="follow-label">Follow me</span>
+        </div>
+    </div>
+    <!-- Project Detail Modal -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
     </div>
 
+    <!-- Scripts -->
     <script src="data.js"></script>
+    <!-- Custom JS -->
     <script src="app.js"></script>
 </body>
+
 </html>

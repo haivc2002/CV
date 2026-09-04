@@ -1,225 +1,203 @@
-// --- SPA Routing ---
-const navButtons = document.querySelectorAll('.nav-btn');
-const views = document.querySelectorAll('.view-section');
-const btnBack = document.getElementById('btn-back');
+// --- Three.js Background Setup ---
+const canvas = document.querySelector('#bg-canvas');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x050505, 0.002);
 
-function navigateTo(targetId) {
-    window.location.hash = '/' + targetId;
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+// Create Particles
+const particlesGeometry = new THREE.BufferGeometry();
+const particlesCount = 2000;
+
+const posArray = new Float32Array(particlesCount * 3);
+const colorsArray = new Float32Array(particlesCount * 3);
+
+const color1 = new THREE.Color(0x00f0ff); // Cyan
+const color2 = new THREE.Color(0x8a2be2); // Purple
+
+for (let i = 0; i < particlesCount * 3; i += 3) {
+    // Spread particles over a large area
+    posArray[i] = (Math.random() - 0.5) * 20;     // x
+    posArray[i + 1] = (Math.random() - 0.5) * 20;   // y
+    posArray[i + 2] = (Math.random() - 0.5) * 20;   // z
+
+    // Mix colors randomly
+    const mixedColor = color1.clone().lerp(color2, Math.random());
+    colorsArray[i] = mixedColor.r;
+    colorsArray[i + 1] = mixedColor.g;
+    colorsArray[i + 2] = mixedColor.b;
 }
 
-function handleHashChange() {
-    let hash = window.location.hash.replace('#', '');
-    if (hash.startsWith('/')) {
-        hash = hash.substring(1);
-    }
-    
-    let targetId = hash;
-    if (!targetId || targetId === '') {
-        targetId = 'about'; // default
-    }
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
 
-    // Update nav buttons
-    navButtons.forEach(btn => {
-        // Keep projects highlighted when in project detail
-        if(btn.dataset.target === targetId || (targetId === 'project-detail' && btn.dataset.target === 'projects')) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-
-    // Update views
-    views.forEach(view => {
-        if(view.id === targetId) {
-            view.classList.add('active');
-        } else {
-            view.classList.remove('active');
-        }
-    });
-
-    // Scroll to top
-    window.scrollTo(0, 0);
-}
-
-window.addEventListener('hashchange', handleHashChange);
-
-navButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        navigateTo(btn.dataset.target);
-    });
+const material = new THREE.PointsMaterial({
+    size: 0.03,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.8,
+    blending: THREE.AdditiveBlending
 });
 
-btnBack.addEventListener('click', () => {
-    navigateTo('projects');
+const particlesMesh = new THREE.Points(particlesGeometry, material);
+scene.add(particlesMesh);
+
+camera.position.z = 5;
+
+// Mouse Interaction
+let mouseX = 0;
+let mouseY = 0;
+let targetX = 0;
+let targetY = 0;
+
+const windowHalfX = window.innerWidth / 2;
+const windowHalfY = window.innerHeight / 2;
+
+document.addEventListener('mousemove', (event) => {
+    mouseX = (event.clientX - windowHalfX);
+    mouseY = (event.clientY - windowHalfY);
 });
 
-// --- Projects Rendering ---
-function renderProjectsGrid() {
-    const container = document.querySelector('.projects-container');
-    container.innerHTML = ''; // Clear
+// Animation Loop
+const clock = new THREE.Clock();
 
-    // Group projects by company
-    const grouped = {};
-    projectsData.forEach(p => {
-        if (!grouped[p.company]) {
-            grouped[p.company] = [];
-        }
-        grouped[p.company].push(p);
-    });
+const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
 
-    for (const [company, projects] of Object.entries(grouped)) {
-        // Company Title
-        const titleEl = document.createElement('h2');
-        titleEl.className = 'company-title';
-        titleEl.textContent = company;
-        container.appendChild(titleEl);
+    // Base rotation
+    particlesMesh.rotation.y = elapsedTime * 0.05;
+    particlesMesh.rotation.x = elapsedTime * 0.02;
 
-        // Grid
-        const gridEl = document.createElement('div');
-        gridEl.className = 'projects-grid';
-        
-        projects.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'project-card skeleton';
-            card.onclick = () => renderProjectDetail(p);
+    // Smooth mouse follow
+    targetX = mouseX * 0.001;
+    targetY = mouseY * 0.001;
 
-            card.innerHTML = `
-                <img src="${p.image}" 
-                     class="project-image" 
-                     alt="${p.nameApp}" 
-                     loading="lazy" 
-                     onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton');">
-                <div class="project-info-overlay">
-                    <div class="project-title">${p.nameApp}</div>
-                    <div class="project-desc-short">${p.description}</div>
-                </div>
-            `;
-            gridEl.appendChild(card);
-        });
+    particlesMesh.rotation.y += 0.05 * (targetX - particlesMesh.rotation.y);
+    particlesMesh.rotation.x += 0.05 * (targetY - particlesMesh.rotation.x);
 
-        container.appendChild(gridEl);
-    }
-}
+    // Subtle wave effect on Z
+    particlesMesh.position.z = Math.sin(elapsedTime * 0.5) * 0.2;
 
-// --- Project Detail Rendering ---
-let currentProject = null;
-let isVietnamese = false;
+    // Render
+    renderer.render(scene, camera);
 
-function renderProjectDetail(project) {
-    currentProject = project;
-    updateProjectDetailDOM();
-    navigateTo('project-detail');
-}
-
-function updateProjectDetailDOM() {
-    if (!currentProject) return;
-    const p = currentProject;
-    const container = document.getElementById('detail-content');
-
-    const desc = (isVietnamese && p.descriptionVi) ? p.descriptionVi : p.description;
-    const features = (isVietnamese && p.mainFeaturesVi && p.mainFeaturesVi.length) ? p.mainFeaturesVi : p.mainFeatures;
-    const contribution = (isVietnamese && p.contributionVi && p.contributionVi.length) ? p.contributionVi : p.contribution;
-    
-    const labels = {
-        features: isVietnamese ? "Tính năng" : "Features",
-        contribution: isVietnamese ? "Đóng góp" : "Contribution",
-        tech: isVietnamese ? "Công nghệ" : "Technology",
-        download: isVietnamese ? "Tải ứng dụng" : "Available for User",
-        team: isVietnamese ? "Quy mô nhóm: " : "Team size: "
-    };
-
-    let techHtml = '';
-    if (p.technologies && p.technologies.length > 0) {
-        techHtml = `
-            <h3 class="section-title">${labels.tech}</h3>
-            <div class="tech-grid">
-                ${p.technologies.map(t => `
-                    <div class="tech-item">
-                        <img src="${t.logo}" alt="${t.name}">
-                        <span>${t.name}</span>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }
-
-    let linksHtml = '';
-    const hasLinks = p.sourceAppstore || p.sourceCHplay || p.sourceGithub;
-    if (hasLinks) {
-        linksHtml = `
-            <hr style="margin: 30px 0; border: none; border-top: 1px solid #ccc;">
-            <h3 class="section-title">${labels.download}</h3>
-            <div class="store-links">
-                ${p.sourceAppstore ? `<a href="${p.sourceAppstore}" target="_blank"><img src="assets/logo_appstore.webp" alt="App Store"></a>` : ''}
-                ${p.sourceCHplay ? `<a href="${p.sourceCHplay}" target="_blank"><img src="assets/logo_chplay.webp" alt="Google Play"></a>` : ''}
-                ${p.sourceGithub ? `<a href="${p.sourceGithub}" target="_blank"><img src="assets/logo_github.webp" alt="GitHub"></a>` : ''}
-            </div>
-        `;
-    }
-
-    container.innerHTML = `
-        <div class="detail-image-wrapper skeleton" style="border-radius: 20px; overflow: hidden; margin-bottom: 30px;">
-            <img src="${p.image}" 
-                 class="detail-header-image" 
-                 alt="${p.nameApp}"
-                 onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton');">
-        </div>
-        
-        <div class="detail-top">
-            <div class="lang-toggle">
-                <button class="lang-btn ${!isVietnamese ? 'active' : ''}" onclick="toggleLang(false)">EN</button>
-                <button class="lang-btn ${isVietnamese ? 'active' : ''}" onclick="toggleLang(true)">VI</button>
-            </div>
-            
-            <div class="detail-title-row">
-                <div class="title-decorator"></div>
-                <div class="title-content">
-                    <h1>${p.nameApp}</h1>
-                    ${p.teamSize ? `<div class="team-size">${labels.team} ${p.teamSize}</div>` : ''}
-                    <div class="detail-description">${desc}</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="detail-content-grid">
-            <div class="main-column">
-                ${features.length ? `
-                    <h3 class="section-title">${labels.features}</h3>
-                    <ul class="feature-list">
-                        ${features.map(f => `<li>${f}</li>`).join('')}
-                    </ul>
-                ` : ''}
-
-                ${contribution && contribution.length ? `
-                    <h3 class="section-title">${labels.contribution}</h3>
-                    <ul class="feature-list">
-                        ${contribution.map(c => `<li>${c}</li>`).join('')}
-                    </ul>
-                ` : ''}
-            </div>
-            
-            <div class="side-column">
-                ${techHtml}
-                ${linksHtml}
-            </div>
-        </div>
-    `;
-}
-
-window.toggleLang = function(toVietnamese) {
-    isVietnamese = toVietnamese;
-    updateProjectDetailDOM();
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
 };
 
-// --- PDF Rendering ---
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+tick();
 
+// Handle Resize
+window.addEventListener('resize', () => {
+    // Update camera
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    // Update renderer
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+
+// --- UI Navigation Logic ---
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const allTabLinks = document.querySelectorAll('.nav-links a[href^="#"], .hero-actions a[href^="#"]');
+const sections = document.querySelectorAll('.view-section');
+const bgCanvas = document.getElementById('bg-canvas');
+
+allTabLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const targetId = link.getAttribute('href').substring(1);
+
+        // Remove active class from all links and sections
+        navLinks.forEach(l => l.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        // Add active class to the corresponding nav menu link
+        const correspondingNavLink = document.querySelector(`.nav-links a[href="#${targetId}"]`);
+        if (correspondingNavLink) {
+            correspondingNavLink.classList.add('active');
+        }
+
+        // Show target section
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
+
+        // Show/hide 3D background based on section
+        if (targetId === 'home') {
+            bgCanvas.style.opacity = '1';
+        } else {
+            bgCanvas.style.opacity = '0';
+        }
+
+        // Update URL cleanly without hash
+        history.pushState(null, null, '?tab=' + targetId);
+
+        // Close mobile menu if open
+        if (navLinksContainer.classList.contains('active-menu')) {
+            navLinksContainer.classList.remove('active-menu');
+        }
+    });
+});
+
+// Handle initial load with query parameter (Deep linking)
+window.addEventListener('load', () => {
+    // Support new ?tab=format
+    const urlParams = new URLSearchParams(window.location.search);
+    let tab = urlParams.get('tab');
+
+    // Support legacy #format as fallback
+    if (!tab && window.location.hash) {
+        tab = window.location.hash.substring(1);
+    }
+
+    if (tab) {
+        const targetLink = document.querySelector(`.nav-links a[href="#${tab}"]`);
+        if (targetLink) {
+            targetLink.click();
+        }
+    }
+});
+
+// Mobile Menu Toggle
+const mobileToggle = document.querySelector('.nav-mobile-toggle');
+const navLinksContainer = document.querySelector('.nav-links');
+
+if (mobileToggle && navLinksContainer) {
+    mobileToggle.addEventListener('click', () => {
+        navLinksContainer.classList.toggle('active-menu');
+    });
+}
+
+// Logo click to Home
+const logo = document.querySelector('.logo');
+if (logo) {
+    logo.addEventListener('click', () => {
+        const homeLink = document.querySelector('.nav-links a[href="#home"]');
+        if (homeLink) homeLink.click();
+    });
+}
+
+// --- PDF.js Logic ---
 async function renderPDF() {
     const url = 'assets/ThanhHai_mobile.pdf';
     const container = document.getElementById('pdf-render-area');
     const loading = document.getElementById('pdf-loading');
 
+    if (!container || !loading) return;
+
     try {
+        // Use Global worker for PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
         const loadingTask = pdfjsLib.getDocument(url);
         const pdf = await loadingTask.promise;
         loading.style.display = 'none';
@@ -227,46 +205,41 @@ async function renderPDF() {
         // Render all pages
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
             const page = await pdf.getPage(pageNum);
-            
+
             // Adjust scale for better resolution on high DPI screens
-            const scale = 1.5; // Reduced from 2.0 to improve performance while keeping quality
+            const scale = 1.5;
             const viewport = page.getViewport({ scale });
 
             const wrapper = document.createElement('div');
-            wrapper.className = 'pdf-page-wrapper skeleton'; // Add skeleton initially
-            
+            wrapper.className = 'pdf-page-wrapper skeleton';
+
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
             canvas.height = viewport.height;
             canvas.width = viewport.width;
 
-            // Render PDF page into canvas context
             const renderContext = {
                 canvasContext: context,
                 viewport: viewport
             };
-            
+
             wrapper.appendChild(canvas);
             container.appendChild(wrapper);
-            
-            // Render the page
+
             await page.render(renderContext).promise;
-            
-            // Page is ready, remove skeleton
+
             wrapper.classList.remove('skeleton');
 
-            // Add links overlay on the first page
-            if (pageNum === 1) {
-                addLinksOverlay(wrapper, canvas.offsetWidth);
-                
-                // Keep overlay sizes updated if window resizes
+            // Add links overlay for specific pages
+            if (pageNum === 1 || pageNum === 2) {
+                addLinksOverlay(wrapper, canvas.offsetWidth, pageNum);
+
                 window.addEventListener('resize', () => {
                     wrapper.querySelectorAll('.pdf-link-area').forEach(el => el.remove());
-                    addLinksOverlay(wrapper, canvas.offsetWidth);
+                    addLinksOverlay(wrapper, canvas.offsetWidth, pageNum);
                 });
             }
 
-            // Small delay to allow the UI to breathe between pages
             if (pageNum < pdf.numPages) {
                 await new Promise(resolve => setTimeout(resolve, 50));
             }
@@ -277,29 +250,27 @@ async function renderPDF() {
     }
 }
 
-function addLinksOverlay(wrapper, displayWidth) {
-    // Original formula from Flutter: 
-    // width = maxWidth
-    // width: width/4.7, height: width/38, top: width/8.7, right: width/3.7 -> GitHub
-    // width: width/3.5, height: width/38, top: width/1.135, left: width/13 -> Portfolio Projects
-    // width: width/3.5, height: width/38, top: width/1.02, left: width/13 -> fog_edge_blur
-    // width: width/3.5, height: width/38, top: width/0.905, left: width/11 -> flow_box_popup
-    // width: width/3.9, height: width/38, top: width/0.815, left: width/11 -> fluid_wave
-
+function addLinksOverlay(wrapper, displayWidth, pageNum) {
     const w = displayWidth;
-    
-    const links = [
-        { url: "https://github.com/haivc2002", w: w/4.7, h: w/38, t: w/8.7, r: w/3.7, l: null },
-        { url: "#", onclick: () => navigateTo('projects'), w: w/3.5, h: w/38, t: w/1.135, l: w/13, r: null }, // Portfolio projects
-        { url: "https://pub.dev/packages/fog_edge_blur", w: w/3.5, h: w/38, t: w/1.02, l: w/13, r: null },
-        { url: "https://pub.dev/packages/flow_box_popup", w: w/3.5, h: w/38, t: w/0.905, l: w/11, r: null },
-        { url: "https://pub.dev/packages/fluid_wave", w: w/3.9, h: w/38, t: w/0.815, l: w/11, r: null }
-    ];
+    let links = [];
+
+    if (pageNum === 1) {
+        links = [
+            { url: "https://github.com/haivc2002", w: w / 4.7, h: w / 38, t: w / 8.7, r: w / 3.7, l: null }
+        ];
+    } else if (pageNum === 2) {
+        links = [
+            { url: "https://pub.dev/packages/fog_edge_blur", w: w / 3.5, h: w / 38, t: w / 1.225, l: w / 13, r: null },
+            { url: "https://pub.dev/packages/flow_box_popup", w: w / 3.5, h: w / 38, t: w / 1.095, l: w / 11, r: null },
+            { url: "https://pub.dev/packages/fluid_wave", w: w / 3.5, h: w / 38, t: w / 0.99, l: w / 11, r: null },
+            { url: "https://haivc2002.github.io/CV/?tab=projects", w: w / 3.3, h: w / 38, t: w / 0.92, l: w / 6, r: null }
+        ];
+    }
 
     links.forEach(link => {
         const a = document.createElement('a');
         a.className = 'pdf-link-area';
-        
+
         if (link.onclick) {
             a.onclick = (e) => { e.preventDefault(); link.onclick(); };
             a.href = '#';
@@ -318,8 +289,109 @@ function addLinksOverlay(wrapper, displayWidth) {
     });
 }
 
-
-// Initialize
-handleHashChange(); // Setup initial route based on hash
-renderProjectsGrid();
+// Call on load
 renderPDF();
+
+// --- Contact Form Logic ---
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', () => {
+        // Clear the form after a short delay so the browser can capture the data for submission first
+        setTimeout(() => {
+            contactForm.reset();
+        }, 500);
+    });
+}
+
+// --- Projects Render Logic ---
+function renderProjects() {
+    const grid = document.getElementById('projects-grid');
+    if (!grid || typeof projectsData === 'undefined') return;
+
+    grid.innerHTML = '';
+
+    projectsData.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'project-card glass-panel';
+        card.onclick = () => openProjectModal(project.id);
+
+        card.innerHTML = `
+            <div class="project-img-wrapper">
+                <img src="${project.image}" alt="${project.nameApp}" class="project-img">
+            </div>
+            <div class="project-card-content">
+                <h3 class="project-title">${project.nameApp}</h3>
+                <p class="project-company">${project.company.split('(')[0].trim()}</p>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function openProjectModal(projectId) {
+    const project = projectsData.find(p => p.id === projectId);
+    if (!project) return;
+
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('modal-body-content');
+
+    let featuresHtml = project.mainFeatures ?
+        `<h4>Main Features</h4><ul>${project.mainFeatures.map(f => `<li>${f}</li>`).join('')}</ul>` : '';
+
+    let contributionHtml = project.contribution ?
+        `<h4>My Contribution</h4><ul>${project.contribution.map(c => `<li>${c}</li>`).join('')}</ul>` : '';
+
+    let linksHtml = '';
+    if (project.sourceAppstore) {
+        linksHtml += `<a href="${project.sourceAppstore}" target="_blank" class="btn btn-primary store-btn">App Store</a>`;
+    }
+    if (project.sourceCHplay) {
+        linksHtml += `<a href="${project.sourceCHplay}" target="_blank" class="btn btn-secondary store-btn">Google Play</a>`;
+    }
+
+    let techHtml = '';
+    if (project.technologies) {
+        techHtml = project.technologies.map(tech =>
+            `<img src="${tech.logo}" alt="${tech.name}" title="${tech.name}" class="modal-tech-icon-large">`
+        ).join('');
+    }
+
+    modalBody.innerHTML = `
+        <div class="modal-img-col">
+            <img src="${project.image}" alt="${project.nameApp}" class="modal-img">
+            <div class="modal-links">${linksHtml}</div>
+        </div>
+        <div class="modal-info-col">
+            <h2 class="modal-title">${project.nameApp}</h2>
+            <p class="modal-company">${project.company.split('(')[0].trim()}</p>
+            <div class="modal-tech-list">${techHtml}</div>
+            <p class="modal-desc">${project.description}</p>
+            <div class="modal-details-scroll">
+                ${featuresHtml}
+                ${contributionHtml}
+            </div>
+        </div>
+    `;
+
+    modal.classList.add('active');
+    // document.body.style.overflow = 'hidden'; // Don't hide overflow if it breaks background
+}
+
+// Modal Close Handlers
+const modal = document.getElementById('project-modal');
+const modalCloseBtn = document.getElementById('modal-close-btn');
+
+if (modal && modalCloseBtn) {
+    const closeModal = () => {
+        modal.classList.remove('active');
+    };
+
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+}
+
+// Call to render projects
+renderProjects();
